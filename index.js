@@ -24,6 +24,12 @@ async function run() {
 
     const userCollection = client.db("MathHero").collection("users")
 
+    app.get("/user", async(req, res)=>{
+        const info = req.query.email
+        const result = await userCollection.findOne({email: info})
+        res.send(result)
+    })
+
     app.post("/user", async(req, res)=>{
         const info = req.body
         const result =await userCollection.insertOne(info)
