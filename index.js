@@ -22,7 +22,13 @@ async function run() {
     await client.connect();
     
 
-    
+    const userCollection = client.db("MathHero").collection("users")
+
+    app.post("/user", async(req, res)=>{
+        const info = req.body
+        const result =await userCollection.insertOne(info)
+        res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log(
