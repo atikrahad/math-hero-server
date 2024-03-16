@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
+const cors = require("cors")
 require("dotenv").config();
 const port = 5000;
+
+app.use(cors())
+app.use(express.json())
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
@@ -23,6 +27,7 @@ async function run() {
     
 
     const userCollection = client.db("MathHero").collection("users")
+    const nodlistCollection = client.db("MathHero").collection("nodelist")
 
     app.get("/user", async(req, res)=>{
         const info = req.query.email
@@ -34,6 +39,12 @@ async function run() {
         const info = req.body
         const result =await userCollection.insertOne(info)
         res.send(result)
+    })
+
+    app.post("/notelist", async(req, res)=>{
+      const info = req.body
+      const result = await nodlistCollection.insertOne(info)
+      res.send(result)
     })
 
     await client.db("admin").command({ ping: 1 });
