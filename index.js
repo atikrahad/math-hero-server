@@ -25,6 +25,7 @@ async function run() {
     const userCollection = client.db("MathHero").collection("users");
     const nodlistCollection = client.db("MathHero").collection("nodelist");
     const noteCollection = client.db("MathHero").collection("notes");
+    const problemCollection = client.db("MathHero").collection("problems");
 
     app.get("/user", async (req, res) => {
       const info = req.query.email;
@@ -64,6 +65,12 @@ async function run() {
       const result = await noteCollection.insertOne(info);
       res.send(result);
     });
+
+    app.post("/problem", async(req, res)=>{
+      const info = req.body
+      const result = await problemCollection.insertOne(info)
+      res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log(
