@@ -41,6 +41,12 @@ async function run() {
         res.send(result)
     })
 
+    app.get("/notelist", async(req, res)=>{
+      const query = req.query.email
+      const result = await nodlistCollection.find({email: query}).toArray()
+      res.send(result)
+    })
+
     app.post("/notelist", async(req, res)=>{
       const info = req.body
       const result = await nodlistCollection.insertOne(info)
