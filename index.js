@@ -7,7 +7,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_Pass}@cluster0.1lk0tsy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
@@ -76,8 +76,12 @@ async function run() {
       const result = await noteCollection.insertOne(info);
       res.send(result);
     });
-
-
+    
+    app.delete("/note", async(req, res)=>{
+      const q = req.query.id;
+      const result = await noteCollection.deleteOne({_id: new ObjectId(q)})
+      res.send(result)
+    })
 
     app.post("/problem", async(req, res)=>{
       const info = req.body
