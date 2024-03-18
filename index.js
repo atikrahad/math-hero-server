@@ -54,6 +54,11 @@ async function run() {
       res.send(result)
     })
 
+    app.get("/problems", async(req,res)=>{
+      const result = await problemCollection.find().toArray()
+      res.send(result)
+    })
+
     app.post("/user", async (req, res) => {
       const info = req.body;
       const result = await userCollection.insertOne(info);
@@ -71,6 +76,8 @@ async function run() {
       const result = await noteCollection.insertOne(info);
       res.send(result);
     });
+
+
 
     app.post("/problem", async(req, res)=>{
       const info = req.body
