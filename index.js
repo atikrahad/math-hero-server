@@ -48,6 +48,12 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/myproblems", async(req, res)=>{
+      const query = req.query.email
+      const result = await problemCollection.find({email: query}).toArray()
+      res.send(result)
+    })
+
     app.post("/user", async (req, res) => {
       const info = req.body;
       const result = await userCollection.insertOne(info);
